@@ -1,12 +1,12 @@
 // // reverse a string
 
-// const reverse = (str) => {
-//   let reversed = "";
-//   for (let i = str.length - 1; i >= 0; i--) {
-//     reversed += str[i];
-//   }
-//   return reversed;
-// };
+const reverse = (str) => {
+  let reversed = '';
+  for (let i = str.length - 1; i >= 0; i--) {
+    reversed += str[i];
+  }
+  return reversed;
+};
 // console.log(reverse("hello"));
 // // console.log("hello world??");
 
@@ -62,13 +62,13 @@ So this reduces down into the same equasion, regardless of if there are even or 
 
 */
 
-// function add1(num) {
-//   let sum = 0;
-//   for (let i = 1; i <= num; i++) {
-//     sum += i;
-//   }
-//   return sum;
-// }
+function add1(num) {
+  let sum = 0;
+  for (let i = 1; i <= num; i++) {
+    sum += i;
+  }
+  return sum;
+}
 // // space: O(1) - we're only storing a singular variable
 // // time: O(n) - as the input gets larger, the amount of operations scaled linearly
 
@@ -77,69 +77,72 @@ So this reduces down into the same equasion, regardless of if there are even or 
 // let t2 = performance.now();
 // console.log(`time: ${(t2 - t1) / 1000} seconds`);
 
-// function add2(n) {
-//   return (n * (n + 1)) / 2;
-// }
+function add2(n) {
+  return (n * (n + 1)) / 2;
+}
+// // space: O(0) - I'm not storing any variables
+// // time: O(1) - if we assume math operations take constant time, then this is constant
 
 // let t3 = performance.now();
 // console.log(add2(1000000000));
 // let t4 = performance.now();
 // console.log(`time: ${(t4 - t3) / 1000} seconds`);
-// // space: O(0) - I'm not storing any variables
-// // time: O(1) - if we assume math operations take constant time, then this is constant
 
 // let person = {
 //   name: "Austin",
-//   occupation: "scumbag",
+//   occupation: "silly boi",
 // };
 
 // Write a function that takes in a string, and returns counts of each character in the string
 
-// const charCount = (input) => {
-//   //   str = [...input.toLowerCase().matchAll(/[a-z]/g)].join("");
-//   str = input.toLowerCase().replaceAll(/[^a-zA-z]/gi, "");
-//   // return an object that counts each character
-//   const counter = {};
-//   for (let i = 0; i < str.length; i++) {
-//     // if the property already exists in the object, increment it
-//     // otherwise, create that property on the object, and give it a value of 1
-//     if (!counter[str[i]]) {
-//       counter[str[i]] = 1;
-//     } else {
-//       counter[str[i]]++;
-//     }
-//   }
-//   return counter;
-// };
+const charCount = (input) => {
+  str = input.toLowerCase().replaceAll(/[^a-zA-z]/gi, '');
+  // return an object that counts each character
+  const counter = {};
+  for (let i = 0; i < str.length; i++) {
+    // if the property already exists in the object, increment it
+    // otherwise, create that property on the object, and give it a value of 1
+    if (!counter[str[i]]) {
+      counter[str[i]] = 1;
+    } else {
+      counter[str[i]]++;
+    }
+  }
+  return counter;
+};
 
 // console.log(charCount("aaa")); // {a: 4}
 // console.log(charCount("hello!!!")); // {h: 1, e: 1, l:2, o:1}
 
-// const same = (arr1, arr2) => {
-//   if (arr1.length !== arr2.length) {
-//     return false;
-//   }
-//   // create a count of elements in the arrays
-//   const frequencyCounter1 = {};
-//   const frequencyCounter2 = {};
-//   for (let val of arr1) {
-//     frequencyCounter1[val] = (frequencyCounter1[val] || 0) + 1;
-//   }
-//   for (let val of arr2) {
-//     frequencyCounter2[val] = (frequencyCounter2[val] || 0) + 1;
-//   }
-//   // ensure the squared key exists in frequencyCounter2
-//   for (let key in frequencyCounter1) {
-//     if (!(key ** 2 in frequencyCounter2)) {
-//       return false;
-//     }
-//     // the count in frequencyCounter2 should = count in frequencyCounter1
-//     if (frequencyCounter2[key ** 2] !== frequencyCounter1[key]) {
-//       return false;
-//     }
-//   }
-//   return true;
-// };
+// all elements in arr1 will be contained in arr2, but the value is squared
+const same = (arr1, arr2) => {
+  if (arr1.length !== arr2.length) {
+    return false;
+  }
+  // create a count of elements in the arrays
+  const frequencyCounter1 = {};
+  const frequencyCounter2 = {};
+  for (let val of arr1) {
+    frequencyCounter1[val] = (frequencyCounter1[val] || 0) + 1;
+  }
+  for (let val of arr2) {
+    frequencyCounter2[val] = (frequencyCounter2[val] || 0) + 1;
+  }
+  // ensure the squared key exists in frequencyCounter2
+  for (let key in frequencyCounter1) {
+    if (!(key ** 2 in frequencyCounter2)) {
+      return false;
+    }
+    // the count in frequencyCounter2 should = count in frequencyCounter1
+    if (frequencyCounter2[key ** 2] !== frequencyCounter1[key]) {
+      return false;
+    }
+  }
+  return true;
+};
+
+// console.log(same([1, 2, 3, 4], [1, 4, 9, 16])); // true
+// console.log(same([1, 2, 3, 4], [1, 4, 1234, 16])); // false
 
 // const anagram = (str1, str2) => {
 //   // Use the frequency counter pattern to determine if 2 input strings are anagrams
@@ -170,48 +173,49 @@ So this reduces down into the same equasion, regardless of if there are even or 
 //   return true;
 // };
 
-// const anagram = (str1, str2) => {
-//   // Use the frequency counter pattern to determine if 2 input strings are anagrams
-//   if (str1.length !== str2.length) {
-//     return false;
-//   }
-//   // create a singular counter object
-//   const frequencyCounter1 = {};
-//   for (let val of str1) {
-//     frequencyCounter1[val] = (frequencyCounter1[val] || 0) + 1;
-//   }
-//   for (let i = 0; i < str2.length; i++) {
-//     const letter = str2[i];
-//     // can't find letter or letter is zero then it's not an anagram
-//     if (!frequencyCounter1[letter]) {
-//       return false;
-//     } else {
-//       frequencyCounter1[letter]--;
-//     }
-//   }
-//   return true;
-// };
+const anagram = (str1, str2) => {
+  // Use the frequency counter pattern to determine if 2 input strings are anagrams
+  if (str1.length !== str2.length) {
+    return false;
+  }
+  // create a singular counter object
+  const frequencyCounter1 = {};
+  for (let val of str1) {
+    frequencyCounter1[val] = (frequencyCounter1[val] || 0) + 1;
+  }
+  for (let i = 0; i < str2.length; i++) {
+    const letter = str2[i];
+    // can't find letter or letter is zero then it's not an anagram
+    if (!frequencyCounter1[letter]) {
+      return false;
+    } else {
+      frequencyCounter1[letter]--;
+    }
+  }
+  return true;
+};
 
-// console.log(anagram("racecar", "rraacce")); // true, logs counter to console
-// console.log(anagram("racecar", "rraacced")); // false, doesn't log counter to console
+// console.log(anagram('racecar', 'rraacce')); // true, logs counter to console
+// console.log(anagram('racecar', 'rraacced')); // false, doesn't log counter to console
 
-// const sumZero = (arr) => {
-//   // find first pair of integers that sums to 0
-//   let left = 0;
-//   let right = arr.length - 1;
-//   while (left < right) {
-//     let sum = arr[left] + arr[right];
-//     if (sum === 0) {
-//       return [arr[left], arr[right]];
-//     } else if (sum > 0) {
-//       right--;
-//     } else {
-//       left++;
-//     }
-//   }
-// };
+// find first pair of integers that sums to 0
+const sumZero = (arr) => {
+  let left = 0;
+  let right = arr.length - 1;
+  while (left < right) {
+    let sum = arr[left] + arr[right];
+    if (sum === 0) {
+      return [arr[left], arr[right]];
+    } else if (sum > 0) {
+      right--;
+    } else {
+      left++;
+    }
+  }
+};
 
 // console.log(sumZero([-3, -2, -1, 0, 1, 5]));
+
 /*
 consider the iteration
 -3 _ 5 > 0 so right--
@@ -247,95 +251,99 @@ consider the iteration
 //   ])
 // );
 
-// const countUniqueValues = (arr) => {
-//   if (arr.length === 0) {
-//     return 0;
-//   }
-//   let i = 0;
-//   for (let j = 1; j < arr.length; j++) {
-//     if (arr[i] !== arr[j]) {
-//       i++;
-//       arr[i] = arr[j];
-//     }
-//   }
-//   return i + 1;
-// };
-// const maxSubArraySum = (arr, int) => {
-//   // do something
-// };
+const countUniqueValues254 = (arr) => {
+  if (arr.length === 0) {
+    return 0;
+  }
+  let i = 0;
+  for (let j = 1; j < arr.length; j++) {
+    if (arr[i] !== arr[j]) {
+      i++;
+      arr[i] = arr[j];
+    }
+  }
+  return i + 1;
+};
 
-// function maxSubArraySum(arr, num) {
-//   let maxSum = 0;
-//   let tempSum = 0;
-//   if (arr.length < num) {
-//     return null;
-//   }
-//   for (let i = 0; i < num; i++) {
-//     maxSum += arr[i];
-//   }
-//   tempSum = maxSum;
-//   for (let i = num; i < arr.length; i++) {
-//     tempSum = tempSum - arr[i - num] + arr[i];
-//     maxSum = Math.max(maxSum, tempSum);
-//   }
-//   return maxSum;
-// }
+// console.log(
+//   countUniqueValues254([
+//     1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 3, 4, 5, 5, 6, 7, 8, 8, 9, 9, 10, 11,
+//   ])
+// );
 
-// console.log(maxSubArraySum([1, 2, 5, 2, 8, 1, 5], 2)); // 10
-// console.log(maxSubArraySum([1, 2, 5, 2, 8, 1, 5], 4)); // 17
+function maxSubArraySum274(arr, num) {
+  let maxSum = 0;
+  let tempSum = 0;
+  if (arr.length < num) {
+    return null;
+  }
+  for (let i = 0; i < num; i++) {
+    maxSum += arr[i];
+  }
+  tempSum = maxSum;
+  for (let i = num; i < arr.length; i++) {
+    tempSum = tempSum - arr[i - num] + arr[i];
+    maxSum = Math.max(maxSum, tempSum);
+  }
+  return maxSum;
+}
 
-// function search(array, val) {
-//   let min = 0;
-//   let max = array.length - 1;
+// console.log(maxSubArraySum274([1, 2, 5, 2, 8, 1, 5], 2)); // 10
+// console.log(maxSubArraySum274([1, 2, 5, 2, 8, 1, 5], 4)); // 17
 
-//   while (min <= max) {
-//     let middle = Math.floor((min + max) / 2);
-//     let currentElement = array[middle];
-//     console.log({ min, max, currentElement });
-//     if (currentElement < val) {
-//       min = middle + 1;
-//     } else if (currentElement > val) {
-//       max = middle - 1;
-//     } else {
-//       return middle;
-//     }
-//   }
-//   return -1;
-// }
+function search294(array, val) {
+  let min = 0;
+  let max = array.length - 1;
 
-// console.log(search([1, 2, 3, 4, 5, 6, 11, 12, 13, 15, 19, 22, 55], 13)); // 8
+  while (min <= max) {
+    let middle = Math.floor((min + max) / 2);
+    let currentElement = array[middle];
+    console.log({ min, max, currentElement });
+    if (currentElement < val) {
+      min = middle + 1;
+    } else if (currentElement > val) {
+      max = middle - 1;
+    } else {
+      return middle;
+    }
+  }
+  return -1;
+}
+
+// console.log(search294([1, 2, 3, 4, 5, 6, 11, 12, 13, 15, 19, 22, 55], 13)); // 8
 
 // Write a function called sameFrequency. Given two positive integers, find out if the two numbers have the same frequency of digits.
 
-// function sameFrequency(int1, int2) {
-//   const str1 = '' + int1;
-//   const str2 = '' + int2;
-//   if (str1.length !== str2.length) {
-//     return false;
-//   }
-//   const frequencyCounter = {};
-//   for (let i = 0; i < str1.length; i++) {
-//     // increment counter from str1
-//     // decrement counter from str2
-//     frequencyCounter[str1[i]] = (frequencyCounter[str1[i]] || 0) + 1;
-//     frequencyCounter[str2[i]] = (frequencyCounter[str2[i]] || 0) - 1;
-//   }
-//   // if any count !== 0, return false
-//   for (let prop in frequencyCounter) {
-//     if (frequencyCounter[prop] !== 0) {
-//       return false;
-//     }
-//   }
-//   return true;
-// }
-// // console.log(sameFrequency(35895786, 58793855));
+function sameFrequency317(int1, int2) {
+  const str1 = '' + int1;
+  const str2 = '' + int2;
+  if (str1.length !== str2.length) {
+    return false;
+  }
+  const frequencyCounter = {};
+  for (let i = 0; i < str1.length; i++) {
+    // increment counter from str1
+    // decrement counter from str2
+    frequencyCounter[str1[i]] = (frequencyCounter[str1[i]] || 0) + 1;
+    frequencyCounter[str2[i]] = (frequencyCounter[str2[i]] || 0) - 1;
+  }
+  // if any count !== 0, return false
+  for (let prop in frequencyCounter) {
+    if (frequencyCounter[prop] !== 0) {
+      return false;
+    }
+  }
+  return true;
+}
+// console.log(sameFrequency317(35895786, 58793855));
+// console.log(sameFrequency317(1234, 4321));
 
 // function areThereDuplicates(...args) {
 //   const arr = args; // [ 'a', 'b', 'c', 'a' ]
 // }
 // areThereDuplicates('a', 'b', 'c', 'a');
 
-const countUniqueValues = (...arr) => {
+const countUniqueValuesOld = (...arr) => {
   arr = arr.sort();
   if (arr.length === 0) {
     return 0;
@@ -351,35 +359,55 @@ const countUniqueValues = (...arr) => {
   return j - i > 1 ? true : false;
 };
 
+// Colt's solution is more efficient because it will short circuit
+// as soon as a duplicate is found
+function areThereDuplicates(...args) {
+  args.sort((a, b) => {
+    if (a < b) return -1;
+    if (a > b) return 1;
+    return 0;
+  });
+  let start = 0;
+  let next = 1;
+  while (next < args.length) {
+    if (args[start] === args[next]) {
+      return true;
+    }
+    start++;
+    next++;
+  }
+  return false;
+}
+
 // console.log(countUniqueValues('a', 'b', 'c', 'd'));
 // console.log(countUniqueValues('a', 'b', 'c', 'd', 'd'));
 // console.log(countUniqueValues('a', 'b', 'c', 'd', 'e', 'f', 'f'));
+
 // console.log(['a', 'b', 'c', 'a', 'd', 'e', 'f', 'f'].sort());
 // console.log(['a', 'A', 'b', 'c', 'a', 'd', 'e', 'f', 'f'].sort());
 // console.log('A'.charCodeAt(0));
 // console.log('a'.charCodeAt(0));
 
-// looking for any 2 numbers,
-// not necessarily 2 adjacent numbers
+// do 2 numbers exist such that their average === target?
+// looking for any 2 numbers, not necessarily 2 adjacent numbers
+const averagePair = (arr, target) => {
+  let i = 0;
+  let j = arr.length - 1;
+  while (i < j) {
+    let avg = (arr[i] + arr[j]) / 2;
+    if (avg > target) {
+      j--;
+    } else if (avg < target) {
+      i++;
+    } else if (avg === target) {
+      return true;
+    }
+  }
+  return false;
+};
 
-// const averagePair = (arr, target) => {
-//   let i = 0;
-//   let j = arr.length - 1;
-//   while (i < j) {
-//     let avg = (arr[i] + arr[j]) / 2;
-//     if (avg > target) {
-//       j--;
-//     } else if (avg < target) {
-//       i++;
-//     } else if (avg === target) {
-//       return true;
-//     }
-//   }
-//   return false;
-// };
-
-// console.log(averagePair([1, 3, 3, 5, 6, 7, 10, 12, 19], 8));
-// console.log(averagePair([-1, 0, 3, 4, 5, 6], 4.1));
+// console.log(averagePair([1, 3, 3, 5, 6, 7, 10, 12, 19], 8)); // true
+// console.log(averagePair([-1, 0, 3, 4, 5, 6], 4.1)); // false
 
 // 4. Write a function called isSubsequence which takes in two strings and checks whether the characters in the first string form a subsequence of the characters in the second string. In other words, the function should check whether the characters in the first string appear somewhere in the second string, without their order changing.
 
@@ -412,8 +440,8 @@ const isSubsequence = (str1, str2) => {
   return true;
 };
 
-// console.log(isSubsequence('sing', 'sting'));
-// console.log(isSubsequence('abc', 'acb'));
+// console.log(isSubsequence('sing', 'sting')); // true
+// console.log(isSubsequence('abc', 'acb')); // false
 
 const maxSubarraySum = (arr, count) => {
   if (arr.length < count) return null;
@@ -435,12 +463,10 @@ const maxSubarraySum = (arr, count) => {
   }
   return maxSum;
 };
-
-// maxSubarraySum([100, 200, 300, 400], 2); // 700
-// console.log(maxSubarraySum([100, 200, 300, 400], 2));
+// console.log(maxSubarraySum([100, 200, 300, 400], 2)); // 700
 // console.log(maxSubarraySum([1, 4, 2, 10, 23, 3, 1, 0, 20], 4)); // 39
 
-// const minSubArrayLen = (arr, sum) => {
+// const minSubArrayLenOld = (arr, sum) => {
 //   // return smallest subarray that is >= sum
 //   const totalSum = arr.reduce((acc, curr) => acc + curr, 0);
 //   if (totalSum < sum) return 0;
@@ -464,8 +490,6 @@ const maxSubarraySum = (arr, count) => {
 //   }
 // };
 
-// console.log(minSubArrayLen([4, 5, 4, 4, 5, 5, 4, 4, 10], 10));
-
 /*
 starting from the beginning of the array
 find the first subarray that meets the sum
@@ -479,13 +503,29 @@ but that seems correct.
 if the sum is still >=10, make this the new window.
 
 Continue this same process for the rest of the length of the array.
-
-
-
 */
 
-// console.log(minSubArrayLen([0, 0, 0], 55));
+function minSubArrayLen(nums, sum) {
+  let total = 0;
+  let start = 0;
+  let end = 0;
+  let minLength = Infinity;
+  while (end < nums.length) {
+    // Add nums[end] to total and move the end pointer to the right
+    total += nums[end];
+    end++;
+    // Shrink the window as small as possible while the total is larger than sum
+    while (total >= sum) {
+      minLength = Math.min(minLength, end - start);
+      total -= nums[start];
+      start++;
+    }
+  }
+  return minLength === Infinity ? 0 : minLength;
+}
 
+// console.log(minSubArrayLen([4, 5, 4, 4, 5, 5, 4, 4, 10], 10)); // 1
+// console.log(minSubArrayLen([0, 0, 0], 55));
 // console.log(minSubArrayLen([3, 1, 7, 11, 2, 9, 8, 21, 62, 33, 19], 52)); // 1 -> because [62] is greater than 52
 // minSubArrayLen([5, 5, 4, 4, 5, 4, 4, 4], 10);
 // minSubArrayLen([5, 4, 4, 4, 5, 4, 5, 5], 10);
@@ -504,11 +544,6 @@ const findUnique = (arr) => {
   return uniqueArr;
 };
 // console.log(findUnique([4, 3, 2, 7, 8, 2, 3, 1]));
-
-const mergeAndSort = (arr1, arr2) => {
-  const fullArr = arr1.concat(arr2);
-  return fullArr.sort((a, b) => a - b);
-};
 
 function minSubArrayLen(nums, sum) {
   let total = 0;
@@ -534,7 +569,7 @@ function minSubArrayLen(nums, sum) {
 
 // console.log(minSubArrayLen([2, 3, 1, 2, 4, 3], 7)); // 2, bc [4,3]
 
-const findLongestSubstring = (str) => {
+const findLongestSubstringOld = (str) => {
   if (str.length === 0 || str.length === 1) {
     return str.length;
   }
@@ -563,129 +598,122 @@ const findLongestSubstring = (str) => {
 
   return largestLength;
 };
-// console.log(findLongestSubstring('thisisawesome'));
+// Time complexity: O(n^2)
 
-/*
-thisisawesome
-bbbbbb
-longestsubstring
-rithmschool
-thecatinthehat
-thisishowwedoit
-*/
+const findLongestSubstring = (str) => {
+  if (str.length === 0) return 0;
+  let p1 = 0;
+  let largestLength = 0;
+  let uniqueMap = new Map();
+  for (let p2 = 0; p2 < str.length; p2++) {
+    const char = str[p2];
+    if (uniqueMap.has(char)) {
+      // Move p1 to the right of the duplicate character's last occurrence
+      p1 = Math.max(p1, uniqueMap.get(char) + 1);
+    }
+    uniqueMap.set(char, p2);
+    largestLength = Math.max(largestLength, p2 - p1 + 1);
+  }
+  return largestLength;
+};
+// Time complexity: O(n)
+
+// console.log(findLongestSubstring('thisisawesome'));
 // console.log(findLongestSubstring('asdfghjkl'));
 
-// for (let i = 0; i < 10; i++) {
-//   console.log(i);
-//   i++;
-// }
-
-// function sumRange(num) {
-//   if (num === 1) return 1; // base case
-//   return num + sumRange(num - 1); // recursive case
-// }
+function sumRange(num) {
+  if (num === 1) return 1; // base case
+  return num + sumRange(num - 1); // recursive case
+}
 // console.log(sumRange(10));
 
-// function factorial(num) {
-//   if (num === 1) return 1; // base case
-//   return num * factorial(num - 1); // recursive case
-// }
+function factorial(num) {
+  if (num === 1) return 1; // base case
+  return num * factorial(num - 1); // recursive case
+}
 
 // console.log(factorial(5));
 
-// const collectOddValues = (arr) => {
-//   let results = [];
-//   if (arr.length === 0) return results;
+const collectOddValues = (arr) => {
+  let results = [];
+  if (arr.length === 0) return results;
 
-//   if (arr[0] % 2 !== 0) {
-//     results.push(arr[0]);
-//   }
-//   results = results.concat(collectOddValues(arr.slice(1)));
-//   return results;
-// };
-
+  if (arr[0] % 2 !== 0) {
+    results.push(arr[0]);
+  }
+  results = results.concat(collectOddValues(arr.slice(1)));
+  return results;
+};
 // console.log(collectOddValues([1, 2, 3, 4, 5, 6, 7, 8, 9]));
 
-// const power = (int, pow) => {
-//   if (int === 1) return 1;
-//   if (pow === 0) return 1;
-//   if (pow === 1) return int;
-//   return int * power(int, pow - 1);
-// };
+const power = (int, pow) => {
+  if (int === 1) return 1;
+  if (pow === 0) return 1;
+  if (pow === 1) return int;
+  return int * power(int, pow - 1);
+};
 // console.log(power(21, 0));
 
-/*
-0
-1
-2
-4
-7
-*/
-// function factorial(num) {
-//   if (num === 1 || num === 0) return 1; // base case
-//   return num * factorial(num - 1); // recursive case
-// }
+function factorial(num) {
+  if (num === 1 || num === 0) return 1; // base case
+  return num * factorial(num - 1); // recursive case
+}
 // console.log(factorial(7));
 
-// const productOfArray = (arr) => {
-//   if (arr.length === 0) return 1;
-//   const results = arr[0] * productOfArray(arr.slice(1));
-//   return results;
-// };
+const productOfArray = (arr) => {
+  if (arr.length === 0) return 1;
+  const results = arr[0] * productOfArray(arr.slice(1));
+  return results;
+};
+// console.log(productOfArray([0, 1, 2, 3])); // 0
+// console.log(productOfArray([1, 2, 3, 4, 5])); // 120
+// console.log(productOfArray([-1, 2, 3, 4, 5])); // -120
 
-// console.log(productOfArray([0, 1, 2, 3]));
-
-/*
-1,2,3
-0,1,2,3
-1,-2,3
-*/
-
-// const recursiveRange = (num) => {
-//   // do something
-//   if (num === 1) return num;
-//   return num + recursiveRange(num - 1);
-// };
+const recursiveRange = (num) => {
+  if (num === 1) return num;
+  return num + recursiveRange(num - 1);
+};
 // console.log(recursiveRange(6));
 
-// const fib = (num) => {
-//   // base case
-//   if (num === 2 || num === 1) return 1;
-//   // recursive case
-//   return fib(num - 1) + fib(num - 2);
-// };
-// console.log(fib(10));
+const fib = (num) => {
+  // base case
+  if (num === 2 || num === 1) return 1;
+  // recursive case
+  return fib(num - 1) + fib(num - 2);
+};
+// console.log(fib(10)); // 55
 
-// const reverse = (str) => {
-//   // base case
-//   if (str.length === 1) return str[0];
-//   if (str.length === 0) return '';
-//   // recursive case
-//   return reverse(str.slice(1)) + str[0];
-// };
-// console.log(reverse('hello'));
+const reverse686 = (str) => {
+  // base case
+  if (str.length === 1) return str[0];
+  if (str.length === 0) return '';
+  // recursive case
+  return reverse686(str.slice(1)) + str[0];
+};
+// console.log(reverse686('hello')); // olleh
 
-// const isPalindrome = (str) => {
-//   // base case
-//   if (str.length === 1 || str.length === 0) return true;
-//   // check for equality
-//   if (str[0] !== str[str.length - 1]) return false;
-//   // recursive case
-//   return isPalindrome(str.slice(1, str.length - 1));
-// };
+const isPalindrome = (str) => {
+  // base case
+  if (str.length === 1 || str.length === 0) return true;
+  // check for equality
+  if (str[0] !== str[str.length - 1]) return false;
+  // recursive case
+  return isPalindrome(str.slice(1, str.length - 1));
+};
+// console.log(isPalindrome('racecar')); // true
+// console.log(isPalindrome('racecardj')); // false
 
-// // console.log('asdf'.slice(-2, 'asdf'.length));
-// console.log(isPalindrome('racecardj'));
+// if any array element returns true from the callback function,
+// return true
+const someRecursive = (arr, callback) => {
+  // base case
+  if (arr.length === 0) return false;
+  if (callback(arr[0]) === true) return true;
+  // recursive case
+  return someRecursive(arr.slice(1), callback);
+};
 
-// const someRecursive = (arr, callback) => {
-//   // base case
-//   if (arr.length === 0) return false;
-//   if (callback(arr[0]) === true) return true;
-//   // recursive case
-//   return someRecursive(arr.slice(1), callback);
-// };
-
-// const isOdd = (val) => val % 2 !== 0;
+const isOdd = (val) => val % 2 !== 0;
 
 // console.log(someRecursive([2, 4, 2, 4, 2], isOdd));
 
@@ -694,17 +722,17 @@ const flatten = (arr) => {
   if (arr.length === 0) return [];
   let outputArr = [];
   if (typeof arr[0] === 'number') {
-    console.log({ arrBlock: false, value: arr[0] });
+    // console.log({ arrBlock: false, value: arr[0] });
     outputArr.push(arr[0]);
     return outputArr.concat(flatten(arr.slice(1)));
   } else if (Array.isArray(arr[0])) {
-    console.log({ arrBlock: true, value: arr[0] });
+    // console.log({ arrBlock: true, value: arr[0] });
     return outputArr.concat(flatten(arr[0])).concat(flatten(arr.slice(1)));
   }
 };
-// ^^ this was some absolute fucking bullshit, but I figured it out
-// console.log(flatted([1, 2, 3, 4, [5], 6])); // [1, 2, 3, 4, 5]
-// console.log(flatted([[[[1], [[[2]]], [[[[[[[3]]]]]]]]]])); // [1, 2, 3, 4, 5]
+// ^^ this was some absolute BS, but I figured it out
+// console.log(flatten([1, 2, 3, 4, [5], 6])); // [1, 2, 3, 4, 5, 6]
+// console.log(flatten([[[[1], [[[2]]], [[[[[[[3]]]]]]]]]])); // [1, 2, 3,]
 
 function capitalizeFirst(arr) {
   // base case
@@ -721,19 +749,6 @@ function capitalizeFirst(arr) {
 // EZ
 // console.log(capitalizeFirst(['car', 'taco', 'banana']));
 
-const flatten2 = (arr) => {
-  // base case
-  if (arr.length === 0) return [];
-  let outputArr = [];
-  if (typeof arr[0] === 'number') {
-    console.log({ arrBlock: false, value: arr[0] });
-    outputArr.push(arr[0]);
-    return outputArr.concat(flatten(arr.slice(1)));
-  } else if (Array.isArray(arr[0])) {
-    console.log({ arrBlock: true, value: arr[0] });
-    return outputArr.concat(flatten(arr[0])).concat(flatten(arr.slice(1)));
-  }
-};
 // Write a recursive function called nestedEvenSum. Return the sum of all even numbers in an object which may contain nested objects.
 function nestedEvenSum(obj) {
   let counter = 0;
@@ -762,7 +777,7 @@ function nestedEvenSum(obj) {
 //     },
 //   },
 // };
-// fuck
+
 // console.log(nestedEvenSum(obj1)); // 6
 // var obj2 = {
 //   a: 2,
@@ -781,9 +796,11 @@ function capitalizeWords(arr) {
   // recursive case
   return [arr[0].toUpperCase()].concat(capitalizeWords(arr.slice(1)));
 }
-
-let words = ['i', 'am', 'learning', 'recursion'];
+// let words = ['i', 'am', 'learning', 'recursion'];
 // console.log(capitalizeWords(words));
+
+// for all properties in an object (including nested properties),
+// if the value is a number, change that to a string
 
 // need to use a for..in loop
 // base case
@@ -792,6 +809,8 @@ let words = ['i', 'am', 'learning', 'recursion'];
 //    property is an object
 //      property is an object, but not an array?
 //        or should I be iterating over elements in the array?
+//          tests don't require that I do this!
+// when looking at the tests, I also can't mutate the original object.
 
 const stringifyNumbers = (obj) => {
   const clone = JSON.parse(JSON.stringify(obj));
@@ -805,38 +824,8 @@ const stringifyNumbers = (obj) => {
   }
   return clone;
 };
-
-const stringifyNumbersNew = (obj) => {
-  // try to use object.values property instead.
-
-  // console.log(obj.values);
-  // for (let property in obj) {
-  //   console.log(typeof property);
-  //   if (typeof obj[property] === 'number') {
-  //     obj[property] = '' + obj[property];
-  //   } else if (typeof obj[property] === 'object') {
-  //     obj[property] = stringifyNumbers(obj[property]);
-  //   }
-  // }
-  // return obj;
-  const clone = JSON.parse(JSON.stringify(obj));
-  for (let element of Object.values(clone)) {
-    if (typeof element === 'number') {
-      clone[element] = '' + element;
-    } else if (typeof element === 'object') {
-      clone[element] = stringifyNumbers(clone[element]);
-    }
-  }
-  return clone;
-};
-
-/*
-first test should return undefined
-Expected undefined to equal Object({ num: '1', test: [  ], data: Object({ val: '4', info: Object({ isRight: true, random: '66' }) }) }).
-*/
-
-// let obj = {
-//   1: 1,
+// let obj828 = {
+//   one: 1,
 //   test: [],
 //   data: {
 //     val: 4,
@@ -846,9 +835,7 @@ Expected undefined to equal Object({ num: '1', test: [  ], data: Object({ val: '
 //     },
 //   },
 // };
-
-// console.log(stringifyNumbers(obj));
-// console.log(Object.values(obj));
+// console.log(stringifyNumbers(obj828));
 
 const collectStrings = (obj) => {
   const returnArr = [];
@@ -863,21 +850,19 @@ const collectStrings = (obj) => {
   }
   return returnArr;
 };
-
-const obj = {
-  stuff: 'foo',
-  data: {
-    val: {
-      thing: {
-        info: 'bar',
-        moreInfo: {
-          evenMoreInfo: {
-            weMadeIt: 'baz',
-          },
-        },
-      },
-    },
-  },
-};
-
-console.log(collectStrings(obj));
+// const obj854 = {
+//   stuff: 'foo',
+//   data: {
+//     val: {
+//       thing: {
+//         info: 'bar',
+//         moreInfo: {
+//           evenMoreInfo: {
+//             weMadeIt: 'baz',
+//           },
+//         },
+//       },
+//     },
+//   },
+// };
+// console.log(collectStrings(obj854)); // [ 'foo', 'bar', 'baz' ]
