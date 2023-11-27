@@ -79,29 +79,36 @@ const findFirstOccurrence = (arr, target) => {
   let p2 = arr.length - 1;
   let result = -1;
   while (p1 <= p2) {
-    const first = arr[p1];
-    const last = arr[p2];
-    const middle = Math.floor(p1 + (p2 - p1) / 2);
-    const middleElement = arr[middle];
+    const leftElement = arr[p1];
+    const rightElement = arr[p2];
+    const middleIndex = Math.floor(p1 + (p2 - p1) / 2);
+    const middleElement = arr[middleIndex];
 
-    console.log({ p1, first, p2, last, middle, middleElement });
+    console.log({
+      p1,
+      leftElement,
+      p2,
+      rightElement,
+      middleIndex,
+      middleElement,
+    });
 
-    if (arr[middle] < target) {
+    if (arr[middleIndex] < target) {
       // If middle is less than target, search the right half.
-      p1 = middle + 1;
-    } else if (arr[middle] > target) {
+      p1 = middleIndex + 1;
+    } else if (arr[middleIndex] > target) {
       // If middle is greater than target, search the left half.
-      p2 = middle - 1;
+      p2 = middleIndex - 1;
     } else {
       // If the target is equal to the middle element, record the index, but continue the search in the left half (since the first occurrence could be to the left).
-      result = middle;
-      p2 = middle - 1;
+      result = middleIndex;
+      p2 = middleIndex - 1;
     }
   }
   return result;
 };
-console.log(' ');
-console.log(findFirstOccurrence([1, 1, 2, 3, 4, 4, 4, 4, 4, 4, 4, 5, 6, 6], 4));
+// console.log(findFirstOccurrence([1, 1, 2, 3, 4, 4, 4, 4, 4, 4, 4, 5, 6, 6], 4));
+console.log(findFirstOccurrence([1, 3, 3, 3, 5, 6], 3));
 
 const findLastOccurrence = (arr, target) => {
   let p1 = 0;
@@ -130,4 +137,4 @@ const findLastOccurrence = (arr, target) => {
   return result;
 };
 
-console.log(findLastOccurrence([1, 1, 2, 3, 4, 4, 4, 4, 4, 4, 4, 5, 6, 6], 4));
+// console.log(findLastOccurrence([1, 1, 2, 3, 4, 4, 4, 4, 4, 4, 4, 5, 6, 6], 4));
