@@ -67,6 +67,9 @@ const anyInstanceBinarySearch = (arr, target) => {
   }
   return -1;
 };
+// console.log(
+//   anyInstanceBinarySearch([1, 1, 2, 3, 4, 4, 4, 4, 4, 4, 4, 5, 6, 6], 4)
+// );
 // if target === middle element, return the index
 // if middle < target, search right hand
 // if middle > target, search left hand
@@ -108,7 +111,7 @@ const findFirstOccurrence = (arr, target) => {
   return result;
 };
 // console.log(findFirstOccurrence([1, 1, 2, 3, 4, 4, 4, 4, 4, 4, 4, 5, 6, 6], 4));
-console.log(findFirstOccurrence([1, 3, 3, 3, 5, 6], 3));
+// console.log(findFirstOccurrence([1, 3, 3, 3, 5, 6], 3));
 
 const findLastOccurrence = (arr, target) => {
   let p1 = 0;
