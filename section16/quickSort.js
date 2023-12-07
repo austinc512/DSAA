@@ -1,92 +1,105 @@
 /*
-
 recursive algorithm
 expoloits that arrs of length 0 and 1 are already sorted
 works by selecting an element (the pivot), and finding the index where the pivot should end up in the sorted array.
-
-Actually, let’s visualize this with the pivot at idx 0
-
-[11, 40, 40, 50, 43, 10, 30, 42, 20, 6, 19, 32, 20, 41, 23, 27]
-
-that's a chonker.
-
-
-
 */
 
-// const pivotHelper = (arr, startIdx = 0, endIdx = arr.length - 1) => {
-//   // for simplicity, the pivot will be the first index
-//   let currentPivotIndex = startIdx;
-//   const pivot = arr[currentPivotIndex];
-//   // since we're using the first index as the pivot,
-//   // start loop at currentPivotIndex + 1
-//   // ??
-//   for (let i = currentPivotIndex + 1; i <= endIdx; i++) {
-//     // if larger, this pushes pivot forward
-//     if (pivot > arr[i]) {
-//       currentPivotIndex++;
-//       // swap the current element with the element at the pivot index.
-//       [arr[i], arr[currentPivotIndex]] = [arr[currentPivotIndex], arr[i]];
-//       // console.log(arr);
-//     }
-//   }
-//   [arr[currentPivotIndex], arr[startIdx]] = [
-//     arr[startIdx],
-//     arr[currentPivotIndex],
-//   ];
-//   console.log(arr);
-//   return currentPivotIndex;
-// };
-
-// let arr = [5, 2, 1, 8, 4, 7, 6, 3];
-// console.log(pivotHelper(arr, 0, arr.length - 1)); // 4 - returns index of correct position for the pivot
-// // arr; // could be many different things, so long as 5 is at idx 4
-// // [2, 1, 4, 3, 5, 8, 7, 6]
-
-// // Final Swap Outside the Loop: Mostly correct, but there's a subtle issue. After the loop, you swap the start element with the element at currentPivotIndex. This is necessary to put the pivot in its correct place. However, you should swap the pivot with the element at currentPivotIndex - 1 if there was at least one swap. If no elements were smaller than the pivot, then the pivot is already in the correct position and doesn't need to be swapped.
-
-// // let's see the issue
-
-// let arr2 = [0, 5, 2, 1, 8, 4, 7, 6, 3];
-// console.log(pivotHelper(arr2, 0, arr2.length - 1));
-
-// still not failing the tests tho................
-
-// well that sucked. I'm just gonna get a good implementation instead.
-
-const swap = (arr, idx1, idx2) => {
-  [arr[idx1], arr[idx2]] = [arr[idx2], arr[idx1]];
-};
-
-const partition = (arr, startIdx = 0, endIdx = arr.length - 1) => {
-  // do something
+const partitionStart = (arr, startIdx = 0, endIdx = arr.length - 1) => {
+  // pivot is used to divide array into parts
   let pivot = arr[startIdx];
+  // swapIdx keeps track of the position where elements less than
+  // the pivot should be moved
   let swapIdx = startIdx;
   let swapCheck = false;
   for (let i = startIdx + 1; i < arr.length; i++) {
-    if (pivot > arr[i]) {
+    if (arr[i] < pivot) {
+      // if arr[i] < pivot, it should be to the left of pivot
+      // To do this, swapIdx is incremented, and the current
+      // element (arr[i]) is swapped with the element at the
+      // new swapIdx
       swapIdx++;
       [arr[i], arr[swapIdx]] = [arr[swapIdx], arr[i]];
-      swap(arr, i, swapIdx);
       swapCheck = true;
     }
   }
-  if (!swap) {
-    console.log(arr);
+  if (!swapCheck) {
+    // no swaps occur
+    // This scenario happens when the pivot is the smallest element,
+    // and no elements need to be moved.
+    // console.log(arr);
     return startIdx;
   } else {
+    // If swaps have occurred, the pivot is swapped with the element at
+    // swapIdx. This ensures that the pivot is placed at the boundary
+    // between smaller and larger elements.
     [arr[startIdx], arr[swapIdx]] = [arr[swapIdx], arr[startIdx]];
-    console.log(arr);
+    // console.log(arr);
     return swapIdx;
   }
 };
 
-// console.log(partition([4, 8, 2, 1, 5, 7, 6, 3])); // 3
+// console.log(partition([4, 8, 2, 1, 5, 7, 6, 3, 5]));
+// [
+//   3, 2, 1, 4, 5,
+//   7, 6, 8, 5
+// ]
+// 3
 
-/*
+const quickSortStart = (arr, startIdx = 0, endIdx = arr.length - 1) => {
+  if (startIdx < endIdx) {
+    let pivotIdx = partitionStart(arr, startIdx, endIdx); // 3
+    // left
+    quickSortStart(arr, startIdx, pivotIdx - 1);
+    // right
+    quickSortStart(arr, pivotIdx + 1, endIdx);
+  }
+  return arr;
+};
+// console.log(quickSortStart([4, 6, 9, 1, 2, 5, 3]));
+// [
+//   1, 2, 3, 4,
+//   5, 6, 9
+// ]
 
-[28, 41, 4, 11, 16, 1, 40, 14, 36, 37, 42, 18]
+function quickSortMiddle(arr, left = 0, right = arr.length - 1) {
+  if (left < right) {
+    // Determine the middle index
+    let pivotIndex = Math.floor((left + right) / 2);
 
-*/
+    // Partition the array around the pivot
+    pivotIndex = partitionMiddle(arr, left, right, pivotIndex);
 
-console.log(partition([24, 4]));
+    // Recursively apply the same logic to the left and right subarrays
+    quickSortMiddle(arr, left, pivotIndex - 1);
+    quickSortMiddle(arr, pivotIndex + 1, right);
+  }
+  return arr;
+}
+
+function partitionMiddle(arr, left, right, pivotIndex) {
+  let pivotValue = arr[pivotIndex];
+  while (left <= right) {
+    // Find left element that should be on the right
+    while (arr[left] < pivotValue) {
+      left++;
+    }
+
+    // Find right element that should be on the left
+    while (arr[right] > pivotValue) {
+      right--;
+    }
+
+    // Swap elements, and move left and right indices
+    if (left <= right) {
+      [arr[left], arr[right]] = [arr[right], arr[left]];
+      left++;
+      right--;
+    }
+  }
+  return left;
+}
+// console.log(quickSortMiddle([9, -3, 5, 2, 6, 8, -6, 1, 3]));
+// [
+//   -6, -3, 1, 2, 3,
+//    5,  6, 8, 9
+// ]

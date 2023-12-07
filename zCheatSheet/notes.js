@@ -104,7 +104,7 @@ const sortHelper = (arr1, arr2) => {
   return [...sortArr, ...arr1.slice(p1), ...arr2.slice(p2)];
 };
 
-console.log(sortHelper([1, 3, 5, 7], [2, 4, 6]));
+// console.log(sortHelper([1, 3, 5, 7], [2, 4, 6]));
 // sortHelper works.
 
 const mergeSort = (arr) => {
@@ -120,4 +120,85 @@ const mergeSort = (arr) => {
   return sortHelper(left, right);
 };
 
-console.log(mergeSort([9, 8, 7, 6, 5, 4, 3, 2, 1, 100, 99, 45, 3, 0]));
+// console.log(mergeSort([9, 8, 7, 6, 5, 4, 3, 2, 1, 100, 99, 45, 3, 0]));
+
+// quick sort uses a partition helper function to rearrange elements greater
+// than or less than a pivot element.
+
+// START pivot:
+const partitionStart = (arr, startIdx = 0, endIdx = arr.length - 1) => {
+  let pivot = arr[startIdx];
+  let swapIdx = startIdx;
+  let swapCheck = false;
+  for (let i = startIdx + 1; i < arr.length; i++) {
+    if (arr[i] < pivot) {
+      swapIdx++;
+      [arr[i], arr[swapIdx]] = [arr[swapIdx], arr[i]];
+      swapCheck = true;
+    }
+  }
+  if (!swapCheck) {
+    return startIdx;
+  } else {
+    [arr[startIdx], arr[swapIdx]] = [arr[swapIdx], arr[startIdx]];
+    return swapIdx;
+  }
+};
+
+const quickSortStart = (arr, startIdx = 0, endIdx = arr.length - 1) => {
+  if (startIdx < endIdx) {
+    let pivotIdx = partitionStart(arr, startIdx, endIdx); // 3
+    // left
+    quickSortStart(arr, startIdx, pivotIdx - 1);
+    // right
+    quickSortStart(arr, pivotIdx + 1, endIdx);
+  }
+  return arr;
+};
+// console.log(quickSortStart([4, 6, 9, 1, 2, 5, 3]));
+// [
+//   1, 2, 3, 4,
+//   5, 6, 9
+// ]
+
+// MIDDLE pivot:
+function partitionMiddle(arr, left, right, pivotIndex) {
+  let pivotValue = arr[pivotIndex];
+  while (left <= right) {
+    // Find left element that should be on the right
+    while (arr[left] < pivotValue) {
+      left++;
+    }
+
+    // Find right element that should be on the left
+    while (arr[right] > pivotValue) {
+      right--;
+    }
+
+    // Swap elements, and move left and right indices
+    if (left <= right) {
+      [arr[left], arr[right]] = [arr[right], arr[left]];
+      left++;
+      right--;
+    }
+  }
+  return left;
+}
+
+function quickSortMiddle(arr, left = 0, right = arr.length - 1) {
+  if (left < right) {
+    // Determine the middle index
+    let pivotIndex = Math.floor((left + right) / 2);
+    // Partition the array around the pivot
+    pivotIndex = partitionMiddle(arr, left, right, pivotIndex);
+    // Recursively apply the same logic to the left and right subarrays
+    quickSortMiddle(arr, left, pivotIndex - 1);
+    quickSortMiddle(arr, pivotIndex + 1, right);
+  }
+  return arr;
+}
+// console.log(quickSortMiddle([9, -3, 5, 2, 6, 8, -6, 1, 3]));
+// [
+//   -6, -3, 1, 2, 3,
+//    5,  8, 6, 9
+// ]
