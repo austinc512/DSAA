@@ -202,3 +202,168 @@ function quickSortMiddle(arr, left = 0, right = arr.length - 1) {
 //   -6, -3, 1, 2, 3,
 //    5,  8, 6, 9
 // ]
+
+class SinglyLinkedList {
+  constructor() {
+    this.head = null;
+    this.tail = null;
+    this.length = 0;
+  }
+  push(val) {
+    let node = new Node(val);
+    if (this.head === null && this.tail === null) {
+      this.head = node;
+      this.tail = this.head;
+    } else {
+      this.tail.next = node;
+      this.tail = node;
+    }
+    this.length++;
+    return this;
+  }
+  pop() {
+    if (!this.tail) return;
+    let current = this.head;
+    let newTail = current;
+    while (current.next) {
+      newTail = current;
+      current = current.next;
+    }
+    this.tail = newTail;
+    this.tail.next = null;
+    this.length--;
+    // special case
+    if (this.length === 0) {
+      this.head = null;
+      this.tail = null;
+    }
+    return current;
+  }
+  shift() {
+    if (!this.head) return;
+    let temp = this.head;
+    this.head = temp.next;
+    this.length--;
+    // special case
+    if (this.length === 0) {
+      // (head would already be null)
+      this.tail = null;
+    }
+    return temp;
+  }
+  unshift(val) {
+    let node = new Node(val);
+    if (!this.head) {
+      // if there's no head,
+      // then there's also no tail
+      this.head = node;
+      this.tail = this.head;
+    } else {
+      // if there's already a length,
+      // the tail will stay the same
+      node.next = this.head;
+      this.head = node;
+    }
+    this.length++;
+    return this;
+  }
+  get(idx) {
+    if (idx < 0 || idx >= this.length) return null;
+    let counter = 0;
+    let current = this.head;
+    while (counter !== idx) {
+      current = current.next;
+      counter++;
+    }
+    return current;
+  }
+  set(idx, val) {
+    let current = this.get(idx);
+    if (current) {
+      current.val = val;
+      return true;
+    }
+    return false;
+  }
+  // does not return consistent type of value
+  //   insert(idx, val) {
+  //     if (idx < 0 || idx > this.length) {
+  //       return false;
+  //     } else if (idx === this.length) {
+  //       return this.push(val);
+  //     } else if (idx === 0) {
+  //       return this.unshift(val);
+  //     } else {
+  //       // we know we're in the middle somewhere
+  //       // access node at idx - 1 and insert
+  //       let previous = this.get(idx - 1);
+  //       let node = new Node(val);
+  //       node.next = previous.next;
+  //       previous.next = node;
+  //       length++;
+  //       return true;
+  //     }
+  //   }
+
+  // uses !! to coerce into boolean value
+  insert(idx, val) {
+    if (idx < 0 || idx > this.length) {
+      return false;
+    } else if (idx === this.length) {
+      return !!this.push(val);
+    } else if (idx === 0) {
+      return !!this.unshift(val);
+    } else {
+      // we know we're in the middle somewhere
+      // access node at idx - 1 and insert
+      let previous = this.get(idx - 1);
+      let node = new Node(val);
+      node.next = previous.next;
+      previous.next = node;
+      length++;
+      return true;
+    }
+  }
+  remove(idx) {
+    if (idx < 0 || idx >= this.length) {
+      return;
+    } else if (idx === this.length - 1) {
+      return this.pop();
+    } else if (idx === 0) {
+      return this.shift();
+    } else {
+      let current = this.get(idx - 1);
+      let removed = current.next;
+      current.next = removed.next;
+      this.length--;
+      return removed;
+    }
+  }
+  reverse() {
+    // node is a temp variable
+    // but it's also used in our loop
+    let node = this.head;
+    this.head = this.tail;
+    this.tail = node;
+    let prev = null;
+    let next;
+    for (let i = 0; i < this.length; i++) {
+      next = node.next;
+      node.next = prev;
+      prev = node;
+      node = next;
+    }
+    return this;
+  }
+  // helper method to see the work we've done
+  // making an array defeats the point of using a linked list, lol.
+  print() {
+    const arr = [];
+    let current = this.head;
+    while (current) {
+      arr.push(current.val);
+      current = current.next;
+    }
+    console.log(arr);
+  }
+}

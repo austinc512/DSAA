@@ -28,6 +28,7 @@ class SinglyLinkedList {
   }
   push(val) {
     let node = new Node(val);
+    // special case: length 0
     if (this.head === null && this.tail === null) {
       this.head = node;
       this.tail = this.head;
@@ -39,6 +40,7 @@ class SinglyLinkedList {
     return this;
   }
   pop() {
+    // special case: length 0
     if (!this.tail) return;
     let current = this.head;
     let newTail = current;
@@ -49,7 +51,7 @@ class SinglyLinkedList {
     this.tail = newTail;
     this.tail.next = null;
     this.length--;
-    // special case
+    // special case: new length 0
     if (this.length === 0) {
       this.head = null;
       this.tail = null;
@@ -165,10 +167,10 @@ class SinglyLinkedList {
     let prev = null;
     let next;
     for (let i = 0; i < this.length; i++) {
-      next = node.next;
-      node.next = prev;
-      prev = node;
-      node = next;
+      next = node.next; // the current next node
+      node.next = prev; // change next to previous node (reversing direction of pointer)
+      prev = node; // shift over the previous variable
+      node = next; // shift over the node property
     }
     return this;
   }
@@ -212,6 +214,11 @@ const testList = new SinglyLinkedList();
 //   tail: Node { val: 'with', next: null },
 //   length: 2
 // }
+
+// testing pop with a single element
+// testList.push('init');
+// console.log(testList.pop());
+// console.log(testList);
 
 // SHIFT
 // testList.push('init');
