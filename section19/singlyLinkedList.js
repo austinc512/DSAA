@@ -42,6 +42,7 @@ class SinglyLinkedList {
   pop() {
     // special case: length 0
     if (!this.tail) return;
+    // need to find node at length - 2
     let current = this.head;
     let newTail = current;
     while (current.next) {
@@ -154,6 +155,8 @@ class SinglyLinkedList {
       let current = this.get(idx - 1);
       let removed = current.next;
       current.next = removed.next;
+      // removed.next should be removed still?
+      removed.next = null;
       this.length--;
       return removed;
     }
@@ -289,11 +292,11 @@ const testList = new SinglyLinkedList();
 
 // REMOVE
 
-// testList.push('init');
-// testList.push('with');
-// testList.push('values');
+testList.push('init');
+testList.push('with');
+testList.push('values');
 
-// console.log(testList.remove(1));
+console.log(testList.remove(1));
 // console.log(testList);
 // console.log(testList.remove(1));
 // console.log(testList);

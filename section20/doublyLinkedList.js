@@ -145,6 +145,26 @@ class DoublyLinkedList {
       return removedNode;
     }
   }
+  // Reverse the doubly linked list
+  reverse() {
+    let current = this.head;
+    let temp = null;
+
+    while (current !== null) {
+      // Swap the next and prev pointers
+      temp = current.prev;
+      current.prev = current.next;
+      current.next = temp;
+
+      // Move to the next node (which is current.prev after swapping)
+      current = current.prev;
+    }
+
+    // Swap the head and tail pointers
+    temp = this.head;
+    this.head = this.tail;
+    this.tail = temp;
+  }
 }
 
 // const node1 = new Node(1);
