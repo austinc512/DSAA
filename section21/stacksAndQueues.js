@@ -43,6 +43,7 @@ class Stack {
       this.first = newNode;
       this.last = newNode;
     } else {
+      // new nodes become the first element of the stack
       let temp = this.first;
       this.first = newNode;
       this.first.next = temp;
@@ -120,7 +121,7 @@ arrQueue.push('THIRD');
 
 // we could also use unshift and pop to achieve the same I/O operations
 
-// but again, arrays have the reindexing problem exists
+// but again, arrays have the reindexing problem
 
 // class implementation
 
@@ -144,6 +145,7 @@ class Queue {
       this.first = newNode;
       this.last = this.first;
     } else {
+      // new nodes become the last element of the queue
       this.last.next = newNode;
       this.last = newNode;
     }
