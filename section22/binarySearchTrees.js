@@ -153,3 +153,28 @@ BinarySearchTree {
 // contains
 console.log(bst.contains(11)); // true
 console.log(bst.contains(13)); // false
+
+/*
+
+Big O of Binary Search Trees
+
+Best and average case:
+Insertion - O(log n)
+Searching - O(log n)
+
+As the number of nodes in the tree doubles, we only have to take one more step to find our solutions.
+
+Worst case:
+Insertion - O(n)
+Searching - O(n)
+
+This occurs in a BST that degenerates into a linear structure, resembling a linked list. 
+
+This typically happens when the input data is already sorted or nearly sorted, causing all new elements to be inserted as right children (or left children, depending on the order). 
+
+This is referred to as an “unbalanced” or “degenerate” BST. in unbalanced BSTs, the height of the tree is maximal, leading to operations that require traversing from the root to a leaf, thereby losing the efficiency of a balanced BST where operations typically have O(log n) time complexity.
+
+To avoid this problem, self-balancing BSTs such as AVL trees or Red-Black trees are often used. These trees automatically adjust their structure during insertions and deletions to ensure that the tree remains approximately balanced, thereby preserving the O(log n) time complexity for key operations. 
+
+
+*/
