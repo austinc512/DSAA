@@ -191,6 +191,16 @@ class BinarySearchTree {
     traverse(this.root);
     return data;
   }
+  DFSInOrder() {
+    const data = [];
+    function traverse(node) {
+      if (node.left) traverse(node.left);
+      data.push(node.val);
+      if (node.right) traverse(node.right);
+    }
+    traverse(this.root);
+    return data;
+  }
 }
 
 class Node {
@@ -226,10 +236,10 @@ console.log(bst.DFSPreOrder()); // [ 10, 6, 3, 8, 15, 20 ]
  8 9 10 11 12 13 14 15
 
 
-      20
-   15        25 
- 10   17    23    30
-8 11 16 18 22 24 27  31 
+          20
+    15          25 
+ 10    17     23     30
+8 11  16 18  22 24  27  31 
 */
 console.log(bst.DFSPostOrder()); // [ 3, 8, 6, 20, 15, 10 ]
 
@@ -256,4 +266,67 @@ console.log(bst2.DFSPostOrder());
   15, 22, 24, 23, 27, 31,
   30, 25, 20
 ]
+*/
+console.log(bst2.DFSInOrder());
+/*
+[
+   8, 10, 11, 15, 16, 17,
+  18, 20, 22, 23, 24, 25,
+  27, 30, 31
+]
+*/
+
+/*
+When to Use BFS and DFS
+
+Let’s talk about BFS for a moment. As we’re visiting nodes in a tree, 
+we’re adding the subsequent children to a queue. There is additional 
+space complexity of our BFS algorithm because of the queue. 
+
+Both BFS and DFS have a data array that’s returning all these values, 
+which will have O(N) space complexity, but BFS has this additional space 
+complexity due to the queue. I think the queue itself would have O(log n) 
+space complexity, because a parent is popped off the queue before its 
+children make it into the queue. 
+
+Take the example of the SLL that is formed like a BST, 
+which is completely one-sided along the right pointers.
+
+
+Our queue would never have more than 1 item in it. You pop the parent off of 
+the queue before you add its children to the queue. In this case, where there’s 
+only ever a right pointer on a given node, only 1 child will ever be added back 
+to the queue.
+
+The time complexity of BFS and DFS is still the same, O(N), because we visit 
+every node once.
+
+For the DFS approach, the growing amount of function invocations on the call 
+stack would lead to greater space complexity than the BFS for this one-sided 
+tree structure.
+
+For a really wide tree: BFS would take up more space, 
+so DFS would be more space-efficient.
+
+For a really narrow tree: DFS would take up more space, 
+so BFS would be more space-efficient.
+
+
+Use Cases for the Variants of Depth First Search:
+
+DFS - InOrder: 
+we actually get all the nodes in ascending order by value.
+
+DFS - PreOrder:
+PreOrder retains the structure of the BST, so this is useful if you want to clone or store the BST.
+
+In other words, the output array of the PreOrder method could be input into a new 
+BST one-by-one, and you would get an equivalent tree structure.
+
+Recap:
+Trees are non-linear data structures that contain a root and child nodes
+Binary Trees can have values of any type, but at most 2 children for each parent
+Binary Search Trees are a more specific version of binary trees where every node to the left of a parent is less than the parent, and every node to the right is greater than the parent.
+We can search through Trees using BFS and DFS
+
 */
