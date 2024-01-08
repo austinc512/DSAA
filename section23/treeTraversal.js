@@ -181,6 +181,16 @@ class BinarySearchTree {
     traverse(current);
     return data;
   }
+  DFSPostOrder() {
+    const data = [];
+    function traverse(node) {
+      if (node.left) traverse(node.left);
+      if (node.right) traverse(node.right);
+      data.push(node.val);
+    }
+    traverse(this.root);
+    return data;
+  }
 }
 
 class Node {
@@ -198,6 +208,52 @@ bst.insert(15);
 bst.insert(3);
 bst.insert(8);
 bst.insert(20);
-console.log(bst.BFS()); // [ 10, 6, 15, 3, 8, 20 ]
 
+/*
+      10  
+  6      15  
+3  8        20
+*/
+
+console.log(bst.BFS()); // [ 10, 6, 15, 3, 8, 20 ]
 console.log(bst.DFSPreOrder()); // [ 10, 6, 3, 8, 15, 20 ]
+
+/*
+
+      1  
+     2  3
+  4 5   6 7     
+ 8 9 10 11 12 13 14 15
+
+
+      20
+   15        25 
+ 10   17    23    30
+8 11 16 18 22 24 27  31 
+*/
+console.log(bst.DFSPostOrder()); // [ 3, 8, 6, 20, 15, 10 ]
+
+const bst2 = new BinarySearchTree();
+bst2.insert(20);
+bst2.insert(15);
+bst2.insert(25);
+bst2.insert(10);
+bst2.insert(17);
+bst2.insert(23);
+bst2.insert(30);
+bst2.insert(8);
+bst2.insert(11);
+bst2.insert(16);
+bst2.insert(18);
+bst2.insert(22);
+bst2.insert(24);
+bst2.insert(27);
+bst2.insert(31);
+console.log(bst2.DFSPostOrder());
+/*
+[
+   8, 11, 10, 16, 18, 17,
+  15, 22, 24, 23, 27, 31,
+  30, 25, 20
+]
+*/
