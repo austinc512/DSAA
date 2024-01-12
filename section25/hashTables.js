@@ -168,3 +168,196 @@ testArr1[6] = ['tomato', '#hexValue'];
 Note: Separate Chaining allows us to store more data than the original length of our array.
 Linear Probing does not.
 */
+
+class HashTable {
+  constructor(size = 53) {
+    this.keyMap = new Array(size);
+  }
+  _hash(key) {
+    let total = 0;
+    let WEIRD_PRIME = 31;
+    for (let i = 0; i < Math.min(key.length, 100); i++) {
+      let char = key[i];
+      let value = char.charCodeAt(0) - 96;
+      // console.log(total * WEIRD_PRIME + value);
+      // console.log(`modulus 53`);
+      total = (total * WEIRD_PRIME + value) % this.keyMap.length;
+      // console.log({ total });
+    }
+    return total;
+  }
+  /*
+  Set:
+    1. Accepts a key and a value
+    2. Hash the key
+    3. Store the key:value pair as a nested array at that index. We’re implementing separate chaining
+  */
+  // Original version
+  set(key, value) {
+    let index = this._hash(key);
+    // return index
+    if (!this.keyMap[index]) {
+      this.keyMap[index] = [];
+    }
+    this.keyMap[index].push([key, value]);
+  }
+
+  // handling duplicates
+  setWithoutDuplicates(key, value) {
+    let index = this._hash(key);
+    if (!this.keyMap[index]) {
+      this.keyMap[index] = [];
+    }
+    // Check if the key already exists in the bucket
+    let found = false;
+    for (let i = 0; i < this.keyMap[index].length; i++) {
+      if (this.keyMap[index][i][0] === key) {
+        // Key found, UPDATE its value
+        this.keyMap[index][i][1] = value;
+        found = true;
+        break;
+      }
+    }
+    // If the key wasn't found, add it as a new entry
+    if (!found) {
+      this.keyMap[index].push([key, value]);
+    }
+  }
+
+  /*  
+  Get:
+    1. Accepts a key
+    2. Hashes the key
+    3. Retrieves the key:value pair in the hash table
+    4. If the key isn’t found, return undefined
+  */
+  get(key) {
+    // My implementation
+    let index = this._hash(key);
+    if (this.keyMap[index]) {
+      return this.keyMap[index].find((element) => element[0] === key)[1];
+    }
+    // Colt's implementation:
+    // if (this.keyMap[index]) {
+    //   for (let i = 0; i < this.keyMap[index].length; i++) {
+    //     if (this.keyMap[index][i][0] === key) {
+    //       return this.keyMap[index][i][1];
+    //     }
+    //   }
+    // }
+    return undefined;
+  }
+  values() {
+    const valuesArr = [];
+    for (let i = 0; i < this.keyMap.length; i++) {
+      if (this.keyMap[i]) {
+        for (let item of this.keyMap[i]) {
+          valuesArr.push(item[1]);
+        }
+      }
+    }
+    return valuesArr;
+  }
+  uniqueValues() {
+    const valuesArr = [];
+    for (let i = 0; i < this.keyMap.length; i++) {
+      if (this.keyMap[i]) {
+        for (let item of this.keyMap[i]) {
+          if (!valuesArr.includes(item[1])) {
+            valuesArr.push(item[1]);
+          }
+        }
+      }
+    }
+    return valuesArr;
+  }
+  keys() {
+    const keysArr = [];
+    for (let i = 0; i < this.keyMap.length; i++) {
+      if (this.keyMap[i]) {
+        for (let item of this.keyMap[i]) {
+          keysArr.push(item[0]);
+        }
+      }
+    }
+    return keysArr;
+  }
+  uniqueKeys() {
+    const keysArr = [];
+    for (let i = 0; i < this.keyMap.length; i++) {
+      if (this.keyMap[i]) {
+        for (let item of this.keyMap[i]) {
+          if (!keysArr.includes(item[0])) {
+            keysArr.push(item[0]);
+          }
+        }
+      }
+    }
+    return keysArr;
+  }
+}
+
+const ht = new HashTable();
+// console.log(ht._hash('hello')); // 40
+ht.set('hello', 'world'); // idx 40
+ht.set('john', 'doe'); // idx 46
+// console.log(ht.keyMap);
+// [
+//   <40 empty items>,
+//   [ [ 'hello', 'world' ] ],
+//   <5 empty items>,
+//   [ [ 'john', 'doe' ] ],
+//   <6 empty items>
+// ]
+
+console.log(ht.get('john')); // doe
+
+const ht2 = new HashTable(17);
+ht2.set('maroon', '#800000');
+ht2.set('yellow', '#FFFF00');
+ht2.set('olive', '#808000');
+ht2.set('salmon', '#FA8072');
+ht2.set('lightcoral', '#F08080');
+ht2.set('mediumvoiletred', '#C71585');
+ht2.set('plum', 'DDA0DD');
+console.log(ht2.keyMap[8]); // [ [ 'maroon', '#800000' ], [ 'yellow', '#FFFF00' ] ]
+console.log(ht2.get('maroon')); // #800000
+console.log(ht2.get('yellow')); // #FFFF00
+console.log(ht2.get('n0tAc0lOr')); // undefined
+
+// values
+const ht3 = new HashTable(17);
+ht3.set('plum', 'DDA0DD');
+ht3.set('purple', 'DDA0DD');
+console.log(ht3.values()); // [ 'DDA0DD', 'DDA0DD' ]
+console.log(ht3.uniqueValues()); // [ 'DDA0DD' ]
+// keys
+ht3.set('red', '#someHexVal');
+ht3.set('red', '#someOtherHexVal');
+console.log(ht3.keys()); // [ 'plum', 'purple', 'red', 'red' ]
+console.log(ht3.uniqueKeys()); // [ 'plum', 'purple', 'red' ]
+
+/*
+Hash Table Big O
+
+Insert: O(1)
+Deletion: O(1)
+Access: O(1)
+
+This really comes down to how good your hash function is: how fast is the function itself? How equally does it distribute data?
+
+Pretty much every programming language that has an implementation of a hash table has a constant time hash function.
+
+Let’s say our hash function is garbage, and inserts everything at idx 0. In this case, everything would be O(n). 
+
+Searching for values: still O(n) regardless of implementation. 
+
+Recap:
+Hash tables are collections of key-value pairs.
+Hash tables can find values quickly given a key
+Hash tables can add new key:values quickly
+Hash tables store data in a large array, and work by hashing the key
+A good hash should be fast, distribute keys uniformly and be deterministic
+Separate chaining and linear probing are two strategies used to deal with two keys that hash to the same index
+
+*/
