@@ -173,7 +173,13 @@ class HashTable {
   constructor(size = 53) {
     this.keyMap = new Array(size);
   }
-  _hash(key) {
+  /*
+  Make hash a private method. it can be called from other methods within the class,
+  but it cannot be accessed directly from an instance of the HashTable class.
+  This approach ensures that the hashing function is encapsulated within the class
+  and not exposed as part of the class's public interface.
+  */
+  #hash(key) {
     let total = 0;
     let WEIRD_PRIME = 31;
     for (let i = 0; i < Math.min(key.length, 100); i++) {
@@ -194,7 +200,7 @@ class HashTable {
   */
   // Original version
   set(key, value) {
-    let index = this._hash(key);
+    let index = this.#hash(key);
     // return index
     if (!this.keyMap[index]) {
       this.keyMap[index] = [];
@@ -204,7 +210,7 @@ class HashTable {
 
   // handling duplicates
   setWithoutDuplicates(key, value) {
-    let index = this._hash(key);
+    let index = this.#hash(key);
     if (!this.keyMap[index]) {
       this.keyMap[index] = [];
     }
@@ -233,7 +239,7 @@ class HashTable {
   */
   get(key) {
     // My implementation
-    let index = this._hash(key);
+    let index = this.#hash(key);
     if (this.keyMap[index]) {
       return this.keyMap[index].find((element) => element[0] === key)[1];
     }
@@ -298,7 +304,6 @@ class HashTable {
 }
 
 const ht = new HashTable();
-// console.log(ht._hash('hello')); // 40
 ht.set('hello', 'world'); // idx 40
 ht.set('john', 'doe'); // idx 46
 // console.log(ht.keyMap);
