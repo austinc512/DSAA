@@ -209,7 +209,7 @@ class HashTable {
   }
 
   // handling duplicates
-  setWithoutDuplicates(key, value) {
+  setOverrideDuplicates(key, value) {
     let index = this.#hash(key);
     if (!this.keyMap[index]) {
       this.keyMap[index] = [];
@@ -218,7 +218,7 @@ class HashTable {
     let found = false;
     for (let i = 0; i < this.keyMap[index].length; i++) {
       if (this.keyMap[index][i][0] === key) {
-        // Key found, UPDATE its value
+        // Key found, override its value
         this.keyMap[index][i][1] = value;
         found = true;
         break;
