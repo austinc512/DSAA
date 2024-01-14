@@ -174,6 +174,7 @@ const same = (arr1, arr2) => {
 // };
 
 const anagram = (str1, str2) => {
+  // racecar
   // Use the frequency counter pattern to determine if 2 input strings are anagrams
   if (str1.length !== str2.length) {
     return false;
