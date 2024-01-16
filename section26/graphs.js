@@ -160,19 +160,20 @@ class Graph {
   removeEdgeUndirected(vertex1, vertex2) {
     if (!this.adjacencyList[vertex1]) return false;
     if (!this.adjacencyList[vertex2]) return false;
-    let v1 = this.adjacencyList[vertex1];
-    v1 = v1.filter((element) => element !== vertex2);
-    let v2 = this.adjacencyList[vertex2];
-    v2 = v2.filter((element) => element !== vertex1);
+    this.adjacencyList[vertex1] = this.adjacencyList[vertex1].filter(
+      (element) => element !== vertex2
+    );
+    this.adjacencyList[vertex2] = this.adjacencyList[vertex2].filter(
+      (element) => element !== vertex1
+    );
     return true;
   }
   removeEdgeDirected(vertex1, vertex2) {
     if (!this.adjacencyList[vertex1]) return false;
     if (!this.adjacencyList[vertex2]) return false;
-    let v1 = this.adjacencyList[vertex1];
-    v1 = v1.filter((element) => element !== vertex2);
-    // let v2 = this.adjacencyList[vertex2];
-    // v2 = v2.filter((element) => element !== vertex1);
+    this.adjacencyList[vertex1] = this.adjacencyList[vertex1].filter(
+      (element) => element !== vertex2
+    );
     return true;
   }
   removeVertex(vertex) {
@@ -187,3 +188,10 @@ class Graph {
     return true;
   }
 }
+
+const g = new Graph();
+g.addVertex('Austin');
+g.addVertex('Dallas');
+g.addEdgeUndirected('Austin', 'Dallas');
+g.removeVertex('Dallas');
+console.log(g);
