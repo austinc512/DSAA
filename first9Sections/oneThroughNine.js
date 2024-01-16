@@ -839,31 +839,32 @@ const stringifyNumbers = (obj) => {
 // console.log(stringifyNumbers(obj828));
 
 const collectStrings = (obj) => {
-  const returnArr = [];
+  let returnArr = [];
   for (let property in obj) {
     if (typeof obj[property] === 'string') {
       // am accessing all nested strings
       console.log(obj[property]);
       returnArr.push(obj[property]);
     } else if (typeof obj[property] === 'object') {
-      return returnArr.concat(collectStrings(obj[property]));
+      returnArr = returnArr.concat(collectStrings(obj[property]));
     }
   }
   return returnArr;
 };
-// const obj854 = {
-//   stuff: 'foo',
-//   data: {
-//     val: {
-//       thing: {
-//         info: 'bar',
-//         moreInfo: {
-//           evenMoreInfo: {
-//             weMadeIt: 'baz',
-//           },
-//         },
-//       },
-//     },
-//   },
-// };
-// console.log(collectStrings(obj854)); // [ 'foo', 'bar', 'baz' ]
+const obj854 = {
+  stuff: 'foo',
+  data: {
+    val: {
+      thing: {
+        info: 'bar',
+        moreInfo: {
+          evenMoreInfo: {
+            weMadeIt: 'baz',
+          },
+        },
+      },
+    },
+  },
+  stuff2: 'bee',
+};
+console.log(collectStrings(obj854)); // [ 'foo', 'bar', 'baz' ]
