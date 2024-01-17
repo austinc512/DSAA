@@ -44,6 +44,36 @@ If any of those values have not been visited, recursively invoke the helper func
 
 Invoke the helper function with the starting vertex.
 
+General note on the depth first search approach:
+We’re just defining a specific pattern of traversal, and we adhere to that pattern until we can no longer do so. After that, other areas that haven’t been visited will be traversed as we move back upward towards our starting point. 
+
+Both the Recursive and Iterative solutions have this same behavior, but they do so in different ways.
+
+The recursive solution traverses the graph in alphabetical order.
+The iterative solution traverses the graph in reverse-alphabetical order.
+
+*/
+/*
+Breadth First Search
+
+Visit all of a Node’s children before visiting the children of those children.
+
+There’s this concept of height when using BFS, which indicates how many levels of traversal you are away from the starting point.
+
+The starting element doesn’t have any height, its direct children have a height of 1, the children of those children have a height of 2, etc.
+
+Pseudocode:
+This function should accept a starting vertex
+Create a queue and place the starting vertex in it
+Create an array to store the visited nodes
+Create an object to store nodes visited
+Mark the starting vertex as visited
+Loop as long as there is anything in the queue
+Remove the first vertex from the queue and push it into the array that stores nodes visited
+Loop over each vertex in the adjacency list for the vertex you are visiting
+If it is not inside the object that stores nodes visited, mark it as visited and enqueue that vertex
+Once you have finished looping, return the array of visited nodes.
+
 */
 
 class Graph {
@@ -142,6 +172,25 @@ class Graph {
     }
     return result;
   }
+  BFS(start) {
+    const queue = [start];
+    const result = [];
+    const visited = {};
+    let currentVertex;
+    visited[start] = true;
+    while (queue.length) {
+      // remove elements from the front of the queue
+      currentVertex = queue.shift();
+      result.push(currentVertex);
+      this.adjacencyList[currentVertex].forEach((neighbor) => {
+        if (!visited[neighbor]) {
+          visited[neighbor] = true;
+          queue.push(neighbor);
+        }
+      });
+    }
+    return result;
+  }
 }
 
 const g = new Graph();
@@ -162,6 +211,7 @@ g.addEdgeUndirected('E', 'F');
 
 console.log(g.DFSRecursive('A')); // [ 'A', 'B', 'D', 'E', 'C', 'F' ]
 console.log(g.DFSIterative('A')); // [ 'A', 'C', 'E', 'F', 'D', 'B' ]
+console.log(g.BFS('A')); // [ 'A', 'B', 'C', 'D', 'E', 'F' ]
 /*
 Current Graph:
    A
