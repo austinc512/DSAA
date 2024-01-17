@@ -114,8 +114,32 @@ class Graph {
         }
       });
     }
-    debugger;
     dfs(start);
+    return result;
+  }
+  DFSIterative(start) {
+    const stack = [start];
+    const result = [];
+    const visited = {};
+    let currentVertex;
+    visited[start] = true;
+    while (stack.length) {
+      currentVertex = stack.pop();
+      // we always visit the last thing added onto the stack
+      result.push(currentVertex);
+      this.adjacencyList[currentVertex].forEach((neighbor) => {
+        if (!visited[neighbor]) {
+          visited[neighbor] = true;
+          // though we haven't truly visited this neighbor yet,
+          // it's already 'enqueued' into the stack.
+          stack.push(neighbor);
+          // since we're taking these from an alphabetically sorted
+          // adjacencyList, we'll always travel the in a
+          // reverse-alphabetical order as new elements become the
+          // currentVertex
+        }
+      });
+    }
     return result;
   }
 }
@@ -137,6 +161,7 @@ g.addEdgeUndirected('D', 'F');
 g.addEdgeUndirected('E', 'F');
 
 console.log(g.DFSRecursive('A')); // [ 'A', 'B', 'D', 'E', 'C', 'F' ]
+console.log(g.DFSIterative('A')); // [ 'A', 'C', 'E', 'F', 'D', 'B' ]
 /*
 Current Graph:
    A
