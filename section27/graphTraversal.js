@@ -1,6 +1,48 @@
 /*
 
+Traversal - visiting every node in a graph. 
+That's sort of the definition we'll work with for now.
+More complex operations can be derived from this 'traversal'
 
+In a tree structure, you'd start traversal at the root of the tree.
+In a graph, we have no starting point, so the starting point is arbitrary.
+
+There can be multiple ways to traverse from one node to another.
+
+Graph Traversal uses:
+Peer-to-peer networking
+Web crawlers
+Finding ‘closest’ matches/recommendations
+Shortest path problems
+	GPS Navigation
+	Solving mazes
+	AI (shortest path to win the game)
+
+
+Depth First Graph Traversal
+
+Explore as far as possible down one branch before ‘backtracking’.
+
+When using DFS in a binary search tree, you prioritize visiting child elements before sibling elements.
+
+In a tree, it’s pretty easy to say what ‘depth’ is vs. ‘breadth’, but that relationship is not as obvious in a graph.
+
+*/
+
+/*
+DFSRecursive() pseudocode:
+
+The function should accept a starting node
+Create a list to store the end result, to be returned at the very end
+Create an object to store visited vertices
+Create a helper function which accepts a vertex
+
+The helper function should return early in the vertex is empty
+The helper should place the vertex it accepts into the visited object and push that vertex into the result array.
+Loop over all the values in the adjacencyList for that vertex
+If any of those values have not been visited, recursively invoke the helper function with that vertex
+
+Invoke the helper function with the starting vertex.
 
 */
 
@@ -57,4 +99,96 @@ class Graph {
     delete this.adjacencyList[vertex];
     return true;
   }
+  DFSRecursive(start) {
+    const result = [];
+    const visited = {};
+    const adjacencyList = this.adjacencyList;
+    function dfs(vertex) {
+      if (!vertex) return null;
+      visited[vertex] = true;
+      result.push(vertex);
+      adjacencyList[vertex].forEach((neighbor) => {
+        if (!visited[neighbor]) {
+          // return is not necessary
+          return dfs(neighbor);
+        }
+      });
+    }
+    debugger;
+    dfs(start);
+    return result;
+  }
 }
+
+const g = new Graph();
+g.addVertex('A');
+g.addVertex('B');
+g.addVertex('C');
+g.addVertex('D');
+g.addVertex('E');
+g.addVertex('F');
+
+g.addEdgeUndirected('A', 'B');
+g.addEdgeUndirected('A', 'C');
+g.addEdgeUndirected('B', 'D');
+g.addEdgeUndirected('C', 'E');
+g.addEdgeUndirected('D', 'E');
+g.addEdgeUndirected('D', 'F');
+g.addEdgeUndirected('E', 'F');
+
+console.log(g.DFSRecursive('A')); // [ 'A', 'B', 'D', 'E', 'C', 'F' ]
+/*
+Current Graph:
+   A
+ /   \
+B     C
+|     |
+D --- E
+\     /
+   F
+
+Explanation of traversal:
+A is added to the result array and visited hashmap. 
+Recursively call dfs on its neighbors:
+
+B and C.
+
+B will get executed first.
+
+B is added to the result array and visited hashmap.
+
+Its neighbors are A and D. However, A has already been visited, so we don’t get another recursive function call out of it.
+
+Now we’re at D. 
+D is added to the result array and visited hashmap
+
+D has 2 unique neighbors, E and F, and neither of these have been visited.
+
+E gets executed first.
+
+E is added to the result array and visited hashmap. 
+
+E has 3 neighbors, C, D and F. However, D has already been visited, so that leaves us with C and F.
+
+C comes first
+C is added to the result array and visited hashmap. 
+
+It has no unique neighbors, so we’re done with that line of inquiry.
+
+This function gets popped off the stack, so now we’re back at E’s other neighbors, F and D.
+
+D will be compared first, but this is already in our result array and visited hashmap.
+
+We move onto F.
+
+F is added to the result array and visited hashmap. 
+
+F has no unique neighbors, so its function invocation is completed.
+
+All other function invocations have no more unique neighbors, so nothing further will be added to the result array.
+
+More comparisons by the forEach method calls will occur as we gradually pop off the stack, but no new dfs invocations will occur since there’s nothing unique we still need to traverse.
+
+Finally we return the result array.
+   
+*/
