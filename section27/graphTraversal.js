@@ -123,7 +123,10 @@ class Graph {
     // Delete all edges associated with this vertex
     while (this.adjacencyList[vertex].length) {
       const adjacentVertex = this.adjacencyList[vertex].pop();
-      this.removeEdgeUndirected(vertex, adjacentVertex);
+      // can I use removeEdgeDirected instead?
+      // this.removeEdgeUndirected(vertex, adjacentVertex);
+      this.removeEdgeDirected(adjacentVertex, vertex);
+      // ^^ this update works. Just be aware of the order of arguments
     }
     // Delete the vertex itself
     delete this.adjacencyList[vertex];
@@ -141,11 +144,19 @@ class Graph {
         if (!visited[neighbor]) {
           // return is not necessary
           return dfs(neighbor);
+          // forEach() always returns undefined and is not chainable.
+          // The typical use case is to execute side effects at the end of a chain
         }
       });
     }
     dfs(start);
     return result;
+    // this method traverses the first element in each adjacency list in order to
+    // do depth first search. Eventually some element will have no new neighbors.
+    // As the recursion unwinds, eventually we'll clean up any other un-visited elements.
+
+    // in our example, this means we look at the neighbors of a given node, and travel to
+    // the neighbors in alphabetical order.
   }
   DFSIterative(start) {
     const stack = [start];
@@ -160,13 +171,16 @@ class Graph {
       this.adjacencyList[currentVertex].forEach((neighbor) => {
         if (!visited[neighbor]) {
           visited[neighbor] = true;
-          // though we haven't truly visited this neighbor yet,
-          // it's already 'enqueued' into the stack.
+          // setting visited to true confused me before.
+          // neighbor hasn't been pushed into results yet,
+          // but we're pushing it onto the stack now, and
+          // it will be pushed to results later.
           stack.push(neighbor);
-          // since we're taking these from an alphabetically sorted
-          // adjacencyList, we'll always travel the in a
-          // reverse-alphabetical order as new elements become the
-          // currentVertex
+          // arrays in the adjacencyList is sorted alphabetically
+          // from the starting node:
+          // for any unvisited neighbor, add that to the stack
+          // we pop off the stack, so we visit neighbors in a
+          // reverse-alphabetical order.
         }
       });
     }
@@ -267,3 +281,45 @@ More comparisons by the forEach method calls will occur as we gradually pop off 
 Finally we return the result array.
    
 */
+
+// testing
+const g2 = new Graph();
+g2.addVertex('A');
+g2.addVertex('B');
+g2.addVertex('C');
+g2.addVertex('D');
+g2.addVertex('E');
+g2.addVertex('F');
+
+g2.addEdgeUndirected('A', 'B');
+g2.addEdgeUndirected('A', 'C');
+g2.addEdgeUndirected('B', 'D');
+g2.addEdgeUndirected('C', 'E');
+g2.addEdgeUndirected('D', 'E');
+g2.addEdgeUndirected('D', 'F');
+g2.addEdgeUndirected('E', 'F');
+
+console.log(g2);
+// Graph {
+//   adjacencyList: {
+//     A: [ 'B', 'C' ],
+//     B: [ 'A', 'D' ],
+//     C: [ 'A', 'E' ],
+//     D: [ 'B', 'E', 'F' ],
+//     E: [ 'C', 'D', 'F' ],
+//     F: [ 'D', 'E' ]
+//   }
+// }
+g2.removeVertex('F');
+console.log(g2);
+// Graph {
+//   adjacencyList: {
+//     A: [ 'B', 'C' ],
+//     B: [ 'A', 'D' ],
+//     C: [ 'A', 'E' ],
+//     D: [ 'B', 'E' ],
+//     E: [ 'C', 'D' ]
+//   }
+// }
+
+// removeVertex refactor works
