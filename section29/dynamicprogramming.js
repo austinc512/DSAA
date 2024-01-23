@@ -124,9 +124,10 @@ The way we’ve been solving this problem is a top-down approach. The value of f
 Tabulation: storing the result of a previous result in a ‘table’ (usually an array). This is usually done using iteration. Better space complexity can be achieved using tabulation.
 
 In the recursive solution, you'll eventually run up against the maximum call size error.
+The tabluated solution still references previously calculated values, but does not require recursive function invocation to achieve this.
 
+Both solutions have O(N) space complexity, but the tabulated version still uses less space.
 
-Both solutions have O(N) space complexity, but the tabulated version still uses less space because it lacks the recursive call stack.
 
 */
 
