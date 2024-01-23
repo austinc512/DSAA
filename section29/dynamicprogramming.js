@@ -60,9 +60,82 @@ const fib = (num) => {
   return fib(num - 1) + fib(num - 2);
 };
 
-const fibOptimization = (num, arg = {}) => {
-  // base case
-  if (num === 2 || num === 1) return 1;
-  // recursive case
-  return fib(num - 1) + fib(num - 2);
+/*
+
+this has O(2^N) complexity
+in the call stack, there will be duplicates of the same function invocation that occur.
+Instead of allowing those duplicates to occur, we should memoize those return values and return
+the memo where possible.
+
+*/
+
+const fibMemo = (n, memo = []) => {
+  if (memo[n] !== undefined) return memo[n];
+  if (n <= 2) return 1;
+  const res = fibMemo(n - 1, memo) + fibMemo(n - 2, memo);
+  memo[n] = res;
+  return res;
 };
+
+// include the base case in the default parameter
+// since there's no 0th fib number, we make idx 0 undefined
+
+const fibMemo2 = (n, memo = [undefined, 1, 1]) => {
+  if (memo[n] !== undefined) return memo[n];
+  const res = fibMemo2(n - 1, memo) + fibMemo2(n - 2, memo);
+  memo[n] = res;
+  return res;
+};
+
+// console.log(fibMemo2(50));
+
+// you could use the same memo instead of redeclaring a default parameter
+
+const realMemo = [undefined, 1, 1];
+
+const fibMemo3 = (n, memo) => {
+  // console.log(memo);
+  if (memo[n] !== undefined) return memo[n];
+  const res = fibMemo3(n - 1, memo) + fibMemo3(n - 2, memo);
+  memo[n] = res;
+  return res;
+};
+
+console.log(fibMemo3(50, realMemo));
+
+/*
+Big O
+
+concerning our memo:
+Accessing an element by its index and assigning a value to a specific index (not insertion, reassignment) are both constant time operations.
+
+As n grows, the amount of fib() calculations that need to occur grows proportionally
+As n grows, the memo length grows proportionally.
+
+Both the time and space complexity of this solution are O(N).
+
+*/
+
+/*
+Tabulation: A Bottom-Up Approach
+
+The way we’ve been solving this problem is a top-down approach. The value of fib(7) = fib(6) + fib(5), and so forth. 
+
+Tabulation: storing the result of a previous result in a ‘table’ (usually an array). This is usually done using iteration. Better space complexity can be achieved using tabulation.
+
+In the recursive solution, you'll eventually run up against the maximum call size error.
+
+
+Both solutions have O(N) space complexity, but the tabulated version still uses less space because it lacks the recursive call stack.
+
+*/
+
+const fibTabulation = (num) => {
+  if (num <= 2) return 1;
+  const fibNums = [0, 1, 1];
+  for (let i = 3; i <= num; i++) {
+    fibNums[i] = fibNums[i - 1] + fibNums[i - 2];
+  }
+  return fibNums[num];
+};
+console.log(fibTabulation(50));
