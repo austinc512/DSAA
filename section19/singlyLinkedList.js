@@ -188,15 +188,111 @@ class SinglyLinkedList {
     }
     console.log(arr);
   }
+  rotate(int) {
+    // do something
+    /*
+    This function should rotate all the nodes in the list by some number passed in. For instance, if your list looks like 1 -> 2 -> 3 -> 4 -> 5 and you rotate by 2, the list should be modified to 3 -> 4 -> 5 -> 1 -> 2. The number passed in to rotate can be any integer.
+
+    Time Complexity: O(N), where N is the length of the list.
+
+    Space Complexity: O(1)
+
+    accepts negative numbers as arguments
+    accepts large numbers like 1000
+
+    if Math.abs(int) > this.length
+    int %= this.length
+
+    length 4,
+    rotate(1) and rotate(5) do the same thing
+    */
+    // special cases length 0 and 1
+    if (this.length === 0 || this.length === 1) {
+      return;
+    }
+    if (Math.abs(int) > this.length) {
+      int %= this.length;
+    }
+    let newVal;
+    if (int > 0) {
+      let count = 0;
+      while (count < int) {
+        newVal = this.shift().val;
+        this.push(newVal);
+        count++;
+      }
+    } else if (int < 0) {
+      // do negative case
+      let count = 0;
+      while (count > int) {
+        newVal = this.pop().val;
+        this.unshift(newVal);
+        count--;
+      }
+    }
+  }
+  rotateGPT(int) {
+    if (this.length === 0 || this.length === 1 || int === 0) {
+      return this;
+    }
+
+    // Adjust rotation if it's larger than the list length
+    if (Math.abs(int) > this.length) {
+      int %= this.length;
+    }
+    if (int === 0) return this;
+
+    // Find the new tail position
+    let rotateCount = int > 0 ? int : this.length + int;
+
+    let current = this.head;
+    let prev = null;
+
+    // Move forward to the new tail position
+    for (let i = 0; i < rotateCount; i++) {
+      prev = current;
+      current = current.next;
+    }
+
+    // Rotate the list
+    if (prev) {
+      prev.next = null; // Break the link to form a new tail
+    }
+    this.tail.next = this.head; // Link the old tail to the old head
+    this.tail = prev; // Update the tail
+    this.head = current; // Update the head
+
+    return this;
+  }
 }
 
 const singlyLinkedList = new SinglyLinkedList();
-singlyLinkedList.push(5).push(10).push(15).push(20);
-console.log(singlyLinkedList);
+// singlyLinkedList.push(5).push(10).push(15).push(20);
+// console.log(singlyLinkedList);
 
-singlyLinkedList.insert(2, 12);
+// singlyLinkedList.insert(2, 12);
+// console.log(singlyLinkedList.get(0));
+// console.log(singlyLinkedList.get(1));
+
+// singlyLinkedList.rotate(1);
+// console.log(singlyLinkedList.tail); // node 5
+// singlyLinkedList.rotate(-1);
+// singlyLinkedList.rotate(5);
+// console.log(singlyLinkedList.tail); // node 5
+
+// console.log(5 % 4);
 
 // const testList = new SinglyLinkedList();
+
+// rotateGPT
+singlyLinkedList.push(5).push(10).push(15).push(20).push(25);
+singlyLinkedList.rotateGPT(10);
+console.log(singlyLinkedList.tail); // Node { val: 5, next: null }
+console.log(singlyLinkedList.head);
+// Node {
+//   val: 10,
+//   next: Node { val: 15, next: Node { val: 20, next: [Node] } }
+// }
 
 // PUSH
 // testList.push('hi');
