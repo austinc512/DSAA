@@ -140,7 +140,7 @@ class SinglyLinkedList {
       let node = new Node(val);
       node.next = previous.next;
       previous.next = node;
-      length++;
+      this.length++;
       return true;
     }
   }
@@ -190,7 +190,13 @@ class SinglyLinkedList {
   }
 }
 
-const testList = new SinglyLinkedList();
+const singlyLinkedList = new SinglyLinkedList();
+singlyLinkedList.push(5).push(10).push(15).push(20);
+console.log(singlyLinkedList);
+
+singlyLinkedList.insert(2, 12);
+
+// const testList = new SinglyLinkedList();
 
 // PUSH
 // testList.push('hi');
@@ -292,11 +298,11 @@ const testList = new SinglyLinkedList();
 
 // REMOVE
 
-testList.push('init');
-testList.push('with');
-testList.push('values');
+// testList.push('init');
+// testList.push('with');
+// testList.push('values');
 
-console.log(testList.remove(1));
+// console.log(testList.remove(1));
 // console.log(testList);
 // console.log(testList.remove(1));
 // console.log(testList);

@@ -164,6 +164,8 @@ class DoublyLinkedList {
     temp = this.head;
     this.head = this.tail;
     this.tail = temp;
+
+    return this;
   }
 }
 
